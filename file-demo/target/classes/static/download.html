@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>File Download</title>
+</head>
+<body>
+	<h1>File Download</h1>
+	<label for="fileName">File Name:</label>
+	<input type="text" id="fileName" name="fileName">
+	<button id="downloadButton">Download</button>
+
+	<script>
+			// Add event listener to the Download button
+			document.getElementById("downloadButton").addEventListener("click", function() {
+				var fileName = document.getElementById("fileName").value;
+				if (fileName.trim() === "") {
+					console.error("Please enter a file name.");
+					return;
+				}
+				var encodedFileName = encodeURIComponent(fileName);
+				var downloadUrl = "/downloadFile/" + encodedFileName;
+	
+				fetch(downloadUrl)
+					.then(function(response) {
+						if (!response.ok) {
+							throw new Error("File download failed. Please try again.");
+						}
+						return response.blob();
+					})
+					.then(function(blob) {
+						// Create a temporary link element
+						var link = document.createElement("a");
+						link.href = URL.createObjectURL(blob);
+						link.download = fileName;
+						link.click();
+	
+						// Clean up the temporary URL object
+						URL.revokeObjectURL(link.href);
+					})
+					.catch(function(error) {
+						console.error(error);
+					});
+			});
+		</script>
+</body>
+</html>

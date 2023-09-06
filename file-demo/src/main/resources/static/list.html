@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of Files</title>
+</head>
+<body>
+    <h1>File Versions</h1>
+    <form id="fileVersionsForm">
+        <label for="filename">Enter Filename:</label>
+        <input type="text" id="filename" name="filename">
+        <button type="submit">Get Versions</button>
+    </form>
+    <div id="fileVersionsList"></div>
+
+    <script>
+        document.getElementById("fileVersionsForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            var filename = document.getElementById("filename").value.trim();
+            fetch("/file-versions/" + filename)
+                .then(response => {
+                    if (response.ok) {
+                        return response.json();
+                    } else {
+                        throw new Error("Error retrieving file versions.");
+                    }
+                })
+                .then(data => displayFileVersions(data))
+                .catch(error => {
+                    console.error(error);
+                    displayFileVersions([]);
+                });
+        });
+
+        function displayFileVersions(fileVersions) {
+            console.log(fileVersions); // Debug statement
+
+            var fileVersionsList = document.getElementById("fileVersionsList");
+            fileVersionsList.innerHTML = "";
+
+            if (fileVersions && Array.isArray(fileVersions)) {
+                if (fileVersions.length === 0) {
+                    fileVersionsList.innerHTML = "No versions found for the specified file.";
+                } else {
+                    var table = document.createElement("table");
+                    table.border = "1";
+
+                    // Create table headers
+                    var tableHead = document.createElement("thead");
+                    var headerRow = document.createElement("tr");
+
+                    // Create header cells
+                    var headerNames = ["ID", "File Name", "File Type", "Is Current Version", "Version"];
+                    headerNames.forEach(function(headerName) {
+                        var headerCell = document.createElement("th");
+                        headerCell.appendChild(document.createTextNode(headerName));
+                        headerRow.appendChild(headerCell);
+                    });
+
+                    tableHead.appendChild(headerRow);
+                    table.appendChild(tableHead);
+
+                    // Create table rows for each file version
+                    var tableBody = document.createElement("tbody");
+                    fileVersions.forEach(function(fileVersion) {
+                        console.log(fileVersion); // Debug statement
+
+                        var versionRow = document.createElement("tr");
+
+                        // Create cells for each property
+                        var idCell = document.createElement("td");
+                        idCell.appendChild(document.createTextNode(fileVersion.id));
+                        versionRow.appendChild(idCell);
+
+                        var fileNameCell = document.createElement("td");
+                        fileNameCell.appendChild(document.createTextNode(fileVersion.fileName));
+                        versionRow.appendChild(fileNameCell);
+
+                        var fileTypeCell = document.createElement("td");
+                        fileTypeCell.appendChild(document.createTextNode(fileVersion.fileType));
+                        versionRow.appendChild(fileTypeCell);
+                        
+                        
+
+                        var isCurrentVersionCell = document.createElement("td");
+                        isCurrentVersionCell.appendChild(document.createTextNode(fileVersion.currentVersion));
+                        versionRow.appendChild(isCurrentVersionCell);
+                        
+                        var versionCell = document.createElement("td");
+                        versionCell.appendChild(document.createTextNode(fileVersion.version));
+                      /*   console.log(version); */
+                        versionRow.appendChild(versionCell);
+
+
+                        tableBody.appendChild(versionRow);
+                    });
+
+                    table.appendChild(tableBody);
+                    fileVersionsList.appendChild(table);
+                }
+            } else if (fileVersions && typeof fileVersions === "object") {
+                // Display the object structure in the console
+                console.log("Object structure:", fileVersions);
+                fileVersionsList.innerHTML = "Invalid file versions data. Check the console for details.";
+            } else {
+                fileVersionsList.innerHTML = "Invalid file versions data.";
+            }
+        }
+
+
+    </script>
+</body>
+</html>

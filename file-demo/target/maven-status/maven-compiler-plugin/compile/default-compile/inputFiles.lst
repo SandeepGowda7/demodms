@@ -1,0 +1,14 @@
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\model\FileStorageProperties.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\FileDemoApplication.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\entity\FileMetadata.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\repository\FileUploadRepository.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\exception\FileStorageException.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\service\FileService.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\entity\FileType.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\entity\FileUpload.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\exception\MyFileNotFoundException.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\service\FileStorageService.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\repository\Filemetadatarepo.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\controller\FileController.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\repository\FileTypeRepository.java
+D:\exDMS\file-demo\file-demo\src\main\java\com\example\filedemo\payload\UploadFileResponse.java

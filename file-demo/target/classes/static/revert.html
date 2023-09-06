@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>File Revert</title>
+</head>
+<body>
+	<h2>File Revert</h2>
+
+	<form id="revertForm">
+		<label for="fileName">FileName:</label> <input type="text"
+			id="fileName" name="fileName" required><br> <br> <label
+			for="version">Version:</label> <input type="text" id="version"
+			name="version" required><br> <br>
+
+		<button type="submit">Revert</button>
+		
+		
+	</form>
+	
+	<div id="message"></div>
+
+	<script>
+    const revertForm = document.getElementById('revertForm');
+    const messageDiv = document.getElementById('message');
+
+    revertForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        
+        const fileName = document.getElementById('fileName').value;
+        const version = parseInt(document.getElementById('version').value);
+        
+        revertFile(fileName, version);
+        
+     // Change the URL using the HTML5 History API
+        const newUrl = '/files/revert?filename=' + encodeURIComponent(fileName) + '&version=' + version;
+        history.pushState(null, null, newUrl);
+    });
+
+    function revertFile(fileName, version) {
+        const formData = new FormData();
+        formData.append('fileName', fileName);
+        formData.append('version', version);
+
+			
+            fetch('/files/revert', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Revert success');
+                    
+                    messageDiv.innerText = 'File reverting is successful!';
+                    // Show the pop-up message
+                    alert('File reverted successfully!');
+                } else {
+                    console.log('Revert failed');
+                    // Handle the failed revert or display an error message
+                }
+            })
+            .catch(err => {
+                console.log('Error:', err);
+                // Handle the error or display an error message
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

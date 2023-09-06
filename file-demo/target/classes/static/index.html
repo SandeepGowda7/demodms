@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>File Upload</title>
+</head>
+<body>
+    <h2>File Upload</h2>
+
+    <form id="uploadForm" enctype="multipart/form-data">
+        <input type="file" name="fileName" id="fileInput">
+        <button type="submit">Upload</button>
+    </form>
+
+    <div id="message"></div>
+    <div id="error"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const form = document.getElementById('uploadForm');
+        const fileInput = document.getElementById('fileInput');
+        const messageDiv = document.getElementById('message');
+        const errorDiv = document.getElementById('error');
+        let confirmUpload = false;
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const fileName = fileInput.files[0];
+            if (fileName) {
+                checkFileExistence(fileName);
+            }
+        });
+
+        /* function checkFileExistence(fileName) {
+            const formData = new FormData();
+            formData.append('fileName', fileName);
+
+            $.ajax({
+                url: '/checkFileExistence',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    if (response === 'File with the same name already exists. Do you want to continue with the same filename?') {
+                        if (confirm(response)) {
+                            // User clicked "OK", set the flag to true
+                            confirmUpload = true;
+                            // Proceed with the upload by calling the uploadFile function
+                            uploadFile(fileName);
+                        } else {
+                            // User clicked "Cancel" or closed the dialog, reset the form and stay on the upload page
+                            form.reset();
+                        }
+                    } else {
+                        // File does not exist, proceed with the upload
+                        uploadFile(fileName);
+                    }
+                },
+                error: function(error) {
+                    // Handle error case
+                    console.error('File existence check error:', error);
+                    // Display error message
+                    errorDiv.innerText = 'Error checking file existence.';
+                },
+                processData: false,
+                contentType: false
+            });
+        } */
+
+        function uploadFile(fileName) {
+            const formData = new FormData();
+            formData.append('fileName', fileName);
+
+            $.ajax({
+                url: '/uploadFile',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Handle the response after successful file upload
+                    messageDiv.innerText = response;
+                },
+                error: function(error) {
+                    // Handle error case
+                    console.error('File upload error:', error);
+                    // Display error message
+                    errorDiv.innerText = 'Error uploading file.';
+                },
+                processData: false,
+                contentType: false
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <!DOCTYPE html>
+<html>
+<head>
+<title>File Upload</title>
+</head>
+<body>
+	<h2>File Upload</h2>
+
+	<form id="uploadForm" enctype="multipart/form-data">
+		<input type="file" name="fileName" id="fileInput">
+		<button type="submit">Upload</button>
+	</form>
+	
+	<div id="message"></div>
+
+	<script>
+        const form = document.getElementById('uploadForm');
+        const fileInput = document.getElementById('fileInput');
+		const messageDiv = document.getElementById('message');
+
+        form.addEventListener('submit', (event) => {
+            event.preventDefault();
+            
+            const fileName = fileInput.files[0];
+            if (fileName) {
+                uploadFile(fileName);
+            }
+        });
+
+
+        function uploadFile(fileName) {
+            const formData = new FormData();
+            formData.append('fileName', fileName);
+			
+            fetch('/uploadFile', {
+                method: 'POST',
+                body: formData
+            })
+            .then(data => {
+                console.log('Upload success:', data);
+                // Handle the response or update the UI as needed
+				
+				messageDiv.innerText = 'File uploaded!';
+                    // Show the pop-up message
+                    alert('File uploaded successfully!');
+            })
+            .catch(err=>{
+            	console.log(err);
+            })
+            // Change the URL using the HTML5 History API
+            history.pushState(null, null, '/uploadFile');
+        }
+    </script>
+</body>
+</html>	 -->
+
+
